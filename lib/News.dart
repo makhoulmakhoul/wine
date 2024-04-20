@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:visibility_detector/visibility_detector.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'main.dart';
@@ -357,7 +356,7 @@ class _NewsState extends State<News> {
                     icon: Icon(Icons.facebook, color: Colors.white),
                     label: Text(''),
                     style: ElevatedButton.styleFrom(
-                      primary: Colors.transparent,
+                      backgroundColor: Colors.transparent,
                       shadowColor: Colors.transparent,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(1),
@@ -368,9 +367,24 @@ class _NewsState extends State<News> {
                 SizedBox(width: 20,),
 
                 ElevatedButton.icon(onPressed: (){}, icon: Icon(Icons.facebook , ), label:Text('')),
-                ElevatedButton.icon(onPressed: (){}, icon: Icon(FlutterIcons.youtube_ant,), label:Text('') ),
-                ElevatedButton.icon(onPressed: (){}, icon: Icon(FontAwesome.instagram), label:Text('')),
-                ElevatedButton.icon(onPressed: (){}, icon: Icon(FontAwesome.twitter), label:Text('')),
+          ElevatedButton.icon(onPressed: (){}, icon:Image.asset(
+            'lib/images/y.png',
+            width: 24,
+            height: 24,
+          ), label:Text('') ),
+                ElevatedButton.icon(
+                  onPressed: () {},
+                  icon: Image.asset(
+                    'lib/images/instagram.png',
+                    width: 24,
+                    height: 24,
+                  ),
+                  label: Text(''),),
+                ElevatedButton.icon(onPressed: (){}, icon: Image.asset(
+                  'lib/images/twitter.png',
+                  width: 24,
+                  height: 24,
+                ), label:Text('')),
               ],
             ),
 
@@ -392,13 +406,96 @@ SizedBox(height: 40,),
                   ),
                   SizedBox(height: 20,),
 
-                  Row(
-                    children: [
-                      ElevatedButton.icon(onPressed: (){}, icon: Icon(Icons.facebook , ), label:Text('')),
-                      ElevatedButton.icon(onPressed: (){}, icon: Icon(FlutterIcons.youtube_ant,), label:Text('') ),
-                      ElevatedButton.icon(onPressed: (){}, icon: Icon(FontAwesome.instagram), label:Text('')),
-                      ElevatedButton.icon(onPressed: (){}, icon: Icon(FontAwesome.twitter), label:Text('')),
-                    ],
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          width: 5,
+                        ),
+                        ElevatedButton.icon(
+                          onPressed: () {},
+                          icon: Image.asset(
+                            'lib/images/f.png',
+                            width: 16,
+                            height: 16,
+                          ),
+                          label: SizedBox.shrink(),
+                          style: ElevatedButton.styleFrom(
+                            padding: EdgeInsets.zero,
+                            minimumSize: Size(40, 40),
+                            backgroundColor: Color(0xFF3B3561),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(1),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 5,
+
+                        ),
+                        ElevatedButton.icon(
+                          onPressed: () {},
+                          icon: Image.asset(
+                            'lib/images/youtube.png',
+                            width: 16,
+                            height: 16,
+                          ),
+                          label: SizedBox.shrink(),
+                          style: ElevatedButton.styleFrom(
+                            padding: EdgeInsets.zero,
+                            minimumSize: Size(40, 40),
+                            backgroundColor: Color(0xFF3B3561),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(1),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        ElevatedButton.icon(
+                          onPressed: () {},
+                          icon: Image.asset(
+                            'lib/images/i.png',
+                            width: 16,
+                            height: 16,
+                          ),
+                          label: SizedBox.shrink(),
+                          style: ElevatedButton.styleFrom(
+                            padding: EdgeInsets.zero,
+                            minimumSize: Size(40, 40),
+                            backgroundColor: Color(0xFF3B3561),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(1),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        ElevatedButton.icon(
+                          onPressed: () {},
+                          icon: Image.asset(
+                            'lib/images/tw.png',
+                            width: 16,
+                            height: 16,
+                          ),
+                          label: SizedBox.shrink(),
+                          style: ElevatedButton.styleFrom(
+                            padding: EdgeInsets.zero,
+                            minimumSize: Size(40, 40),
+                            backgroundColor: Color(0xFF3B3561),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(1),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                      ],
+                    ),
                   ),
                   SizedBox(height: 30,),
                   Text('Useful Links',
