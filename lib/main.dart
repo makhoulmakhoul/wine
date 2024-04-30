@@ -122,8 +122,9 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: _scaffoldKey,
+    final bool isMobile = MediaQuery.of(context).size.width < 600;
+    return Builder(
+        builder: (context) => Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xFF630831),
         leading: Padding(
@@ -135,21 +136,88 @@ class _HomePageState extends State<HomePage> {
             fit: BoxFit.cover,
           ),
         ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.menu),
-            onPressed: () {
-              _scaffoldKey.currentState!.openDrawer();
-            },
+
+        actions: isMobile
+            ? [
+          Builder(
+            builder: (context) => IconButton(
+              icon: const Icon(Icons.menu),
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              },
+            ),
           ),
+        ]
+            : [Padding(
+          padding: EdgeInsets.only(right: 40),
+          child: GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => HomePage()),
+              );
+            },
+            child: Text(
+              'Home',
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+        ),
+          Padding(
+            padding: EdgeInsets.only(right: 40),
+            child: GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => AboutUs()),
+                );
+              },
+              child: Text(
+                'About Us',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(right: 40),
+            child: GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => News()),
+                );
+              },
+              child: Text(
+                'News',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(right: 40),
+            child: GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ContactUs()),
+                );
+              },
+              child: Text(
+                'Contact Us',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+          ),
+
         ],
       ),
-      drawer: Drawer(
-    backgroundColor: const Color(0xFF630831),
+      drawer: isMobile
+          ? Drawer(
+        backgroundColor: const Color(0xFF630831),
         child: ListView(
           children: [
             Image.asset('lib/images/logo.png',
-            width:20,height:30,),
+              width:20,height:30,),
             ListTile(
               title: const Text('Home',style:TextStyle(color: Colors.white)),
               onTap: () {
@@ -188,7 +256,8 @@ class _HomePageState extends State<HomePage> {
             ),
           ],
         ),
-      ),
+      )
+          : null,
       body: SingleChildScrollView(
         controller: _scrollController,
         child: Column(
@@ -222,535 +291,1120 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             SizedBox(height: 10,),
-            Text('the project', style: TextStyle(
-              fontSize: 35,
-              fontWeight: FontWeight.bold,
-              fontFamily: 'MyFont',
-            ),),
-            SizedBox(height: 20,),
-            Container(
-              margin: EdgeInsets.all(16.0),
-              child: Text(
-                'Under the patronage of the Lebanese Ministry of Tourism, '
-                    '100%Liban launched an initiative by the name of WINE TOURISM '
-                    'LEBANON to elevate the country’s wine'
-                    ' tourism to new heights and establish a new separate category'
-                    ' to an already versatile touristic sector.',
-                style: TextStyle(
-                  color: Color.fromRGBO(0, 5, 49 , 0.5),
-                  fontFamily: 'Montserrat, sans-serif',
-                  height: 1.0,
-
-                ),
-              ),
-            ),
-
-            SizedBox(height: 20,),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => AboutUs()),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Color(0xFF3B3561),
-              ),
-              child: Text('Learn More'),
-            ),
-            SizedBox(height: 20,),
-            Text('The purpose of the project is to :'),
-            ListTile(
-              leading: Icon(Icons.double_arrow),
-              title: Text('Raise awareness both locally and aboard '
-                  'on the Lebanese wine sector'),
-            ),
-            ListTile(
-              leading: Icon(Icons.double_arrow),
-              title: Text('Establish various mediums to inform potential '
-                  'visitors the possibilities of their visit'),
-            ),
-            ListTile(
-              leading: Icon(Icons.double_arrow),
-              title: Text(
-                  'Introduce a platform that allows national and foreign '
-                      'residents to conveniently interact with the sector'),
-            ),
-            SizedBox(height: 20,),
-            Image.asset('lib/images/roadmap.png'),
-            SizedBox(height: 20,),
-            Stack(
+          isMobile 
+            ?Column( 
+            children: [ Container(child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(
-                  width: 500,
-                  height: 350,
-                  child: Image.asset(
-                    'lib/images/1.jpg',
-                    fit: BoxFit.cover,
+                Text('the project', style: TextStyle(
+                  fontSize: 35,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'MyFont',
+                ),),
+                SizedBox(height: 20,),
+                Container(
+                  margin: EdgeInsets.all(16.0),
+                  child: Text(
+                    'Under the patronage of the Lebanese Ministry of Tourism, '
+                        '100%Liban launched an initiative by the name of WINE TOURISM '
+                        'LEBANON to elevate the country’s wine'
+                        ' tourism to new heights and establish a new separate category'
+                        ' to an already versatile touristic sector.',
+                    style: TextStyle(
+                      color: Color.fromRGBO(0, 5, 49 , 0.5),
+                      fontFamily: 'Montserrat, sans-serif',
+                      height: 1.0,
+
+                    ),
                   ),
                 ),
-                Positioned(
-                  top: 0,
-                  right: 0,
+
+                SizedBox(height: 20,),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => AboutUs()),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color(0xFF3B3561),
+                  ),
+                  child: Text('Learn More'),
+                ),
+              ],
+            ),),
+              Container(child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('The purpose of the project is to :'),
+                  ListTile(
+                    leading: Icon(Icons.double_arrow),
+                    title: Text('Raise awareness both locally and aboard '
+                        'on the Lebanese wine sector'),
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.double_arrow),
+                    title: Text('Establish various mediums to inform potential '
+                        'visitors the possibilities of their visit'),
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.double_arrow),
+                    title: Text(
+                        'Introduce a platform that allows national and foreign '
+                            'residents to conveniently interact with the sector'),
+                  ),
+                ],
+              ),),],
+          )
+          :Row(
+            children: [
+              Expanded(child: Container(child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('the project', style: TextStyle(
+                    fontSize: 35,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'MyFont',
+                  ),),
+                  SizedBox(height: 20,),
+                  Container(
+                    margin: EdgeInsets.all(16.0),
+                    child: Text(
+                      'Under the patronage of the Lebanese Ministry of Tourism, '
+                          '100%Liban launched an initiative by the name of WINE TOURISM '
+                          'LEBANON to elevate the country’s wine'
+                          ' tourism to new heights and establish a new separate category'
+                          ' to an already versatile touristic sector.',
+                      style: TextStyle(
+                        color: Color.fromRGBO(0, 5, 49 , 0.5),
+                        fontFamily: 'Montserrat, sans-serif',
+                        height: 1.0,
+
+                      ),
+                    ),
+                  ),
+
+                  SizedBox(height: 20,),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => AboutUs()),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color(0xFF3B3561),
+                    ),
+                    child: Text('Learn More'),
+                  ),
+                ],
+              )) ),
+            Expanded(child: Container(child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('The purpose of the project is to :'),
+                ListTile(
+                  leading: Icon(Icons.double_arrow),
+                  title: Text('Raise awareness both locally and aboard '
+                      'on the Lebanese wine sector'),
+                ),
+                ListTile(
+                  leading: Icon(Icons.double_arrow),
+                  title: Text('Establish various mediums to inform potential '
+                      'visitors the possibilities of their visit'),
+                ),
+                ListTile(
+                  leading: Icon(Icons.double_arrow),
+                  title: Text(
+                      'Introduce a platform that allows national and foreign '
+                          'residents to conveniently interact with the sector'),
+                ),
+              ],
+            ),))],
+                
+          ),
+
+            SizedBox(height: 80,),
+            Image.asset('lib/images/roadmap.png'),
+            SizedBox(height: 20,),
+            isMobile
+            ?Column(children: [
+              Container(child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                Stack(
+                  children: [
+                    SizedBox(
+                      width: 500,
+                      height: 350,
+                      child: Image.asset(
+                        'lib/images/1.jpg',
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    Positioned(
+                      top: 0,
+                      right: 0,
+                      child: Container(
+                        width: 250,
+                        height: 180,
+                        color: Color(0xFF630831),
+                        child: Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  '6000+',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 44,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(
+                                  'Years Of History',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              ],
+                            )
+                        ),
+                      ),
+                    ),
+
+                    Positioned(
+                      bottom: -5,
+                      left: 0,
+                      right: 0,
+                      child: GestureDetector(
+                        onTap: () {
+
+                        },
+                        child: Icon(
+                          color: Color(0xFF3B3561),
+                          Icons.play_circle_filled,
+                          size: 70,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],),),
+              Container(child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                Text(
+                  '-HISTORIC SIGNIFICANCE-',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    fontStyle: FontStyle.italic,
+                    letterSpacing: 1,
+                    color: Color(0xFF3B3561),
+                    fontFamily: 'sans-serif',
+                  ),
+                ),
+                SizedBox(height: 20,),
+                Text('A HERITAGE THAT GOES BACK MILLENNIUMS ' ,
+                  style: TextStyle(
+                    fontSize: 35,
+                    fontFamily: 'MyFont',
+                  ),),
+                SizedBox(height: 20,),
+                Padding(padding: EdgeInsets.only(left: 20),
                   child: Container(
-                    width: 250,
-                    height: 180,
-                    color: Color(0xFF630831),
-                    child: Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                    padding: EdgeInsets.only(left: 30),
+                    decoration: BoxDecoration(
+                      border: Border(
+                        left: BorderSide(
+                          color: Color(0xFF630831),
+                          width: 2,
+                        ),
+                      ),
+                    ),
+                    child: Text(
+                      'The origin of Lebanese wine and its journey up until present'
+                          ' day is as complex as it is rich. The remnants'
+                          ' of this incredible history can still be seen and experienced today throughout the country.',
+                      style: TextStyle(
+                        color: Color.fromRGBO(0, 5, 49 , 0.5),
+                        fontFamily: 'Montserrat, sans-serif',
+                        height: 1.7,
+                      ),
+                    ),
+                  ),
+                ),
+
+                SizedBox(height: 50,),
+                Padding(
+                  padding: EdgeInsets.only(left: 15),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            '6000+',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 44,
-                              fontWeight: FontWeight.bold,
-                            ),
+                          Icon(
+                            Icons.circle,
+                            color: Color(0xFF630831),
+                            size: 10,
                           ),
-                          Text(
-                            'Years Of History',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
+                          SizedBox(width: 10),
+                          Expanded(
+                            child: Text(
+                              'Citations In Ancient Religious Texts',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 24.0,
+                                letterSpacing: 0.0,
+                                fontStyle: FontStyle.normal,
+                                decoration: TextDecoration.none,
+                                fontFamily: 'Montserrat',
+                                height: 1.0,
+                              ),
                             ),
                           ),
                         ],
-                      )
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        'Both the book of Hosea and that of Ezekiel reference the scent of Lebanese wine in the highest regard.',
+                        style: TextStyle(
+                          color: Color.fromRGBO(0, 5, 49, 0.5),
+                          fontFamily: 'Montserrat, sans-serif',
+                          height: 1.0,
+                        ),
+                      ),
+                      SizedBox(height: 20),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Icon(
+                            Icons.circle,
+                            color: Color(0xFF630831),
+                            size: 10,
+                          ),
+                          SizedBox(width: 10),
+                          Expanded(
+                            child: Text(
+                              'Archeological Discoveries And Vestiges',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 24.0,
+                                letterSpacing: 0.0,
+                                fontStyle: FontStyle.normal,
+                                decoration: TextDecoration.none,
+                                fontFamily: 'Montserrat',
+                                height: 1.0,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        'Various discoveries have been made throughout Lebanon that further cement the country having historic importance in the production of wine.',
+                        style: TextStyle(
+                          color: Color.fromRGBO(0, 5, 49, 0.5),
+                          fontFamily: 'Montserrat, sans-serif',
+                          height: 1.0,
+                        ),
+                      ),
+                      SizedBox(height: 20),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Icon(
+                            Icons.circle,
+                            color: Color(0xFF630831),
+                            size: 10,
+                          ),
+                          SizedBox(width: 10),
+                          Expanded(
+                            child: Text(
+                              'Phoenicians Involvement',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 24.0,
+                                letterSpacing: 0.0,
+                                fontStyle: FontStyle.normal,
+                                decoration: TextDecoration.none,
+                                fontFamily: 'Montserrat',
+                                height: 1.0,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        'The ancient thalassocratic civilization that primarily resided in Lebanon was responsible for popularizing wine throughout ancient Mediterranean.',
+                        style: TextStyle(
+                          color: Color.fromRGBO(0, 5, 49, 0.5),
+                          fontFamily: 'Montserrat, sans-serif',
+                          height: 1.0,
+                        ),
+                      ),
+                      SizedBox(height: 20),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Icon(
+                            Icons.circle,
+                            color: Color(0xFF630831),
+                            size: 10,
+                          ),
+                          SizedBox(width: 10),
+                          Expanded(
+                            child: Text(
+                              '18th And 19th Century Significance',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 24.0,
+                                letterSpacing: 0.0,
+                                fontStyle: FontStyle.normal,
+                                decoration: TextDecoration.none,
+                                fontFamily: 'Montserrat',
+                                height: 1.0,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        'Esteemed authors such as Alphonse de Lamartine, Baron IJS Taylor, and many more from the 18th and 19th century continuously attest to the production of high-quality wines being produced. Wine estates were found widespread in Bekaa, Kesrouan, and all the way up to Ehden.',
+                        style: TextStyle(
+                          color: Color.fromRGBO(0, 5, 49, 0.5),
+                          fontFamily: 'Montserrat, sans-serif',
+                          height: 1.0,
+                        ),
+                      ),
+                      SizedBox(height: 20),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Icon(
+                            Icons.circle,
+                            color: Color(0xFF630831),
+                            size: 10,
+                          ),
+                          SizedBox(width: 10),
+                          Expanded(
+                            child: Text(
+                              'Wine Production During The Ottoman Empire',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 24.0,
+                                letterSpacing: 0.0,
+                                fontStyle:   FontStyle.normal,
+                                decoration: TextDecoration.none,
+                                fontFamily: 'Montserrat',
+                                height: 1.0,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        'The production of wine slowed down but the know-how was maintained by convents who are authorized to produce wine for the Christian liturgy.',
+                        style: TextStyle(
+                          color: Color.fromRGBO(0, 5, 49, 0.5),
+                          fontFamily: 'Montserrat, sans-serif',
+                          height: 1.0,
+                        ),
+                      ),
+                      SizedBox(height: 20),
+                    ],
+                  ),
+                ),
+
+              ],),),
+            ],)
+            :Row(children: [
+              Expanded(child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                Stack(
+                  children: [
+                    SizedBox(
+                      width: 500,
+                      height: 350,
+                      child: Image.asset(
+                        'lib/images/1.jpg',
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    Positioned(
+                      top: 0,
+                      right: 0,
+                      child: Container(
+                        width: 250,
+                        height: 180,
+                        color: Color(0xFF630831),
+                        child: Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  '6000+',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 44,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(
+                                  'Years Of History',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              ],
+                            )
+                        ),
+                      ),
+                    ),
+
+                    Positioned(
+                      bottom: -5,
+                      left: 0,
+                      right: 0,
+                      child: GestureDetector(
+                        onTap: () {
+
+                        },
+                        child: Icon(
+                          color: Color(0xFF3B3561),
+                          Icons.play_circle_filled,
+                          size: 70,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],),),
+              Expanded(child:  Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                Text(
+                  '-HISTORIC SIGNIFICANCE-',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    fontStyle: FontStyle.italic,
+                    letterSpacing: 1,
+                    color: Color(0xFF3B3561),
+                    fontFamily: 'sans-serif',
+                  ),
+                ),
+                SizedBox(height: 20,),
+                Text('A HERITAGE THAT GOES BACK MILLENNIUMS ' ,
+                  style: TextStyle(
+                    fontSize: 35,
+                    fontFamily: 'MyFont',
+                  ),),
+                SizedBox(height: 20,),
+                Padding(padding: EdgeInsets.only(left: 20),
+                  child: Container(
+                    padding: EdgeInsets.only(left: 30),
+                    decoration: BoxDecoration(
+                      border: Border(
+                        left: BorderSide(
+                          color: Color(0xFF630831),
+                          width: 2,
+                        ),
+                      ),
+                    ),
+                    child: Text(
+                      'The origin of Lebanese wine and its journey up until present'
+                          ' day is as complex as it is rich. The remnants'
+                          ' of this incredible history can still be seen and experienced today throughout the country.',
+                      style: TextStyle(
+                        color: Color.fromRGBO(0, 5, 49 , 0.5),
+                        fontFamily: 'Montserrat, sans-serif',
+                        height: 1.7,
+                      ),
                     ),
                   ),
                 ),
 
-                Positioned(
-                  bottom: -5,
-                  left: 0,
-                  right: 0,
-                  child: GestureDetector(
-                    onTap: () {
-
-                    },
-                    child: Icon(
-                      color: Color(0xFF3B3561),
-                      Icons.play_circle_filled,
-                      size: 70,
-                    ),
+                SizedBox(height: 50,),
+                Padding(
+                  padding: EdgeInsets.only(left: 15),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Icon(
+                            Icons.circle,
+                            color: Color(0xFF630831),
+                            size: 10,
+                          ),
+                          SizedBox(width: 10),
+                          Expanded(
+                            child: Text(
+                              'Citations In Ancient Religious Texts',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 24.0,
+                                letterSpacing: 0.0,
+                                fontStyle: FontStyle.normal,
+                                decoration: TextDecoration.none,
+                                fontFamily: 'Montserrat',
+                                height: 1.0,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        'Both the book of Hosea and that of Ezekiel reference the scent of Lebanese wine in the highest regard.',
+                        style: TextStyle(
+                          color: Color.fromRGBO(0, 5, 49, 0.5),
+                          fontFamily: 'Montserrat, sans-serif',
+                          height: 1.0,
+                        ),
+                      ),
+                      SizedBox(height: 20),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Icon(
+                            Icons.circle,
+                            color: Color(0xFF630831),
+                            size: 10,
+                          ),
+                          SizedBox(width: 10),
+                          Expanded(
+                            child: Text(
+                              'Archeological Discoveries And Vestiges',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 24.0,
+                                letterSpacing: 0.0,
+                                fontStyle: FontStyle.normal,
+                                decoration: TextDecoration.none,
+                                fontFamily: 'Montserrat',
+                                height: 1.0,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        'Various discoveries have been made throughout Lebanon that further cement the country having historic importance in the production of wine.',
+                        style: TextStyle(
+                          color: Color.fromRGBO(0, 5, 49, 0.5),
+                          fontFamily: 'Montserrat, sans-serif',
+                          height: 1.0,
+                        ),
+                      ),
+                      SizedBox(height: 20),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Icon(
+                            Icons.circle,
+                            color: Color(0xFF630831),
+                            size: 10,
+                          ),
+                          SizedBox(width: 10),
+                          Expanded(
+                            child: Text(
+                              'Phoenicians Involvement',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 24.0,
+                                letterSpacing: 0.0,
+                                fontStyle: FontStyle.normal,
+                                decoration: TextDecoration.none,
+                                fontFamily: 'Montserrat',
+                                height: 1.0,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        'The ancient thalassocratic civilization that primarily resided in Lebanon was responsible for popularizing wine throughout ancient Mediterranean.',
+                        style: TextStyle(
+                          color: Color.fromRGBO(0, 5, 49, 0.5),
+                          fontFamily: 'Montserrat, sans-serif',
+                          height: 1.0,
+                        ),
+                      ),
+                      SizedBox(height: 20),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Icon(
+                            Icons.circle,
+                            color: Color(0xFF630831),
+                            size: 10,
+                          ),
+                          SizedBox(width: 10),
+                          Expanded(
+                            child: Text(
+                              '18th And 19th Century Significance',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 24.0,
+                                letterSpacing: 0.0,
+                                fontStyle: FontStyle.normal,
+                                decoration: TextDecoration.none,
+                                fontFamily: 'Montserrat',
+                                height: 1.0,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        'Esteemed authors such as Alphonse de Lamartine, Baron IJS Taylor, and many more from the 18th and 19th century continuously attest to the production of high-quality wines being produced. Wine estates were found widespread in Bekaa, Kesrouan, and all the way up to Ehden.',
+                        style: TextStyle(
+                          color: Color.fromRGBO(0, 5, 49, 0.5),
+                          fontFamily: 'Montserrat, sans-serif',
+                          height: 1.0,
+                        ),
+                      ),
+                      SizedBox(height: 20),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Icon(
+                            Icons.circle,
+                            color: Color(0xFF630831),
+                            size: 10,
+                          ),
+                          SizedBox(width: 10),
+                          Expanded(
+                            child: Text(
+                              'Wine Production During The Ottoman Empire',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 24.0,
+                                letterSpacing: 0.0,
+                                fontStyle:   FontStyle.normal,
+                                decoration: TextDecoration.none,
+                                fontFamily: 'Montserrat',
+                                height: 1.0,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        'The production of wine slowed down but the know-how was maintained by convents who are authorized to produce wine for the Christian liturgy.',
+                        style: TextStyle(
+                          color: Color.fromRGBO(0, 5, 49, 0.5),
+                          fontFamily: 'Montserrat, sans-serif',
+                          height: 1.0,
+                        ),
+                      ),
+                      SizedBox(height: 20),
+                    ],
                   ),
                 ),
-              ],
-            ),
 
+              ],),)
+            ],),
 
-            SizedBox(height: 20,),
-
-            SizedBox(height: 20,),
-            Text(
-              '-HISTORIC SIGNIFICANCE-',
-              style: TextStyle(
-                fontSize: 16,
+            SizedBox(height: 80,),
+            SizedBox(height: 30,),
+            isMobile
+            ?Column(children: [
+              Container(child: Column(children: [ Text('- AND MORE-' , style: TextStyle(
+                color: Color.fromRGBO(0, 5, 49 , 0.5),
+                fontFamily: 'Montserrat, sans-serif',
+                height: 1.0,
+                fontSize: 26,
                 fontWeight: FontWeight.w600,
                 fontStyle: FontStyle.italic,
                 letterSpacing: 1,
-                color: Color(0xFF3B3561),
-                fontFamily: 'sans-serif',
+              ),),
+                Text('A Sector That Goes Beyond Wine', style: TextStyle(
+                  fontSize: 35,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'MyFont',
+                ),),],),
               ),
-            ),
-            SizedBox(height: 20,),
-            Text('A HERITAGE THAT GOES BACK MILLENNIUMS ' ,
-            style: TextStyle(
-              fontSize: 35,
-              fontFamily: 'MyFont',
-            ),),
-            SizedBox(height: 20,),
- Padding(padding: EdgeInsets.only(left: 20),
- child: Container(
-   padding: EdgeInsets.only(left: 30),
-   decoration: BoxDecoration(
-     border: Border(
-       left: BorderSide(
-         color: Color(0xFF630831),
-         width: 2,
-       ),
-     ),
-   ),
-   child: Text(
-     'The origin of Lebanese wine and its journey up until present'
-         ' day is as complex as it is rich. The remnants'
-         ' of this incredible history can still be seen and experienced today throughout the country.',
-     style: TextStyle(
-       color: Color.fromRGBO(0, 5, 49 , 0.5),
-       fontFamily: 'Montserrat, sans-serif',
-       height: 1.7,
-     ),
-   ),
- ),
-     ),
+              Container(child: Column(children: [
+                Padding(padding: EdgeInsets.all(30),
+                    child: Column(
+                      children: [
+                        Container(
+                          width: 300,
+                          decoration: BoxDecoration(
+                            color:  Color(0xFF630831),
+                            borderRadius: BorderRadius.circular(10.0),
+                            border: Border.all(
+                              color: Color(0xFF630831),
+                              width: 2.0,
+                            ),
+                          ),
+                          padding: EdgeInsets.all(10.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Image.asset(
+                                'lib/images/dish.png',
+                                width: 50,
+                                height: 50,
+                              ),
+                              SizedBox(height: 10),
+                              Text(
+                                'Exquisite Culinary Experience',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              SizedBox(height: 10),
+                              Text(
+                                'Don’t taste just wine, many estates offer a unique and savoring cuisine found nowhere else.',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: 20,),
+                        Container(
+                          width: 300,
+                          decoration: BoxDecoration(
 
-            SizedBox(height: 50,),
-            Padding(
-              padding: EdgeInsets.only(left: 15),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
+                            borderRadius: BorderRadius.circular(10.0),
+                            border: Border.all(
+                              color: Color(0xFF630831),
+                              width: 2.0,
+                            ),
+                          ),
+                          padding: EdgeInsets.all(10.0),
+                          child: Column(
+
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Image.asset(
+                                'lib/images/lodging-red.png',
+                                width: 50,
+                                height: 50,
+                              ),
+                              SizedBox(height: 10),
+                              Text(
+                                'Lodging And Hospitality',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              SizedBox(height: 10),
+                              Text(
+                                'Stay at atmospheric places that harbor the essence of Lebanon’s history',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: 20,),
+                        Container(
+                          width: 300,
+                          decoration: BoxDecoration(
+
+                            borderRadius: BorderRadius.circular(10.0),
+                            border: Border.all(
+                              color: Color(0xFF630831),
+                              width: 2.0,
+                            ),
+                          ),
+                          padding: EdgeInsets.all(10.0),
+                          child: Column(
+
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Image.asset(
+                                'lib/images/landscape-red.png',
+                                width: 50,
+                                height: 50,
+                              ),
+                              SizedBox(height: 10),
+                              Text(
+                                'Scenic Landscapes',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              SizedBox(height: 10),
+                              Text(
+                                'Discover the beautiful views seen from within and nearby the estates.',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: 20,),
+                        Container(
+                          width: 300,
+                          decoration: BoxDecoration(
+
+                            borderRadius: BorderRadius.circular(10.0),
+                            border: Border.all(
+                              color: Color(0xFF630831),
+                              width: 2.0,
+                            ),
+                          ),
+                          padding: EdgeInsets.all(10.0),
+                          child: Column(
+
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Image.asset(
+                                'lib/images/wineglass-red.png',
+                                width: 50,
+                                height: 50,
+                              ),
+                              SizedBox(height: 10),
+                              Text(
+                                'Unparalleled Wine Quality',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              SizedBox(height: 10),
+                              Text(
+                                'Indulge yourself in a unique tasting experience and be sure to try out the wines produced from indigenous grapes',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+
+                      ],
+                    )
+
+                ),
+              ],),),
+              
+            ],)
+            :Row(children: [
+              Expanded(child:Container(
+                width:20,
+            child: Column(children: [ Text('- AND MORE-' , style: TextStyle(
+                color: Color.fromRGBO(0, 5, 49 , 0.5),
+                fontFamily: 'Montserrat, sans-serif',
+                height: 1.0,
+                fontSize: 46,
+                fontWeight: FontWeight.w600,
+                fontStyle: FontStyle.italic,
+                letterSpacing: 1,
+              ),),
+                SizedBox(height: 20,),
+                Text('A Sector That Goes Beyond Wine', style: TextStyle(
+                  fontSize: 55,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'MyFont',
+                ),),],),
+              ),),
+              Expanded(child: Container(child: Column(children: [
+                Padding(padding: EdgeInsets.all(10),
+                    child: Column(
+                      children: [
+                        Container(child: Column(children: [
+                          Container(
+                            width: 300,
+                            decoration: BoxDecoration(
+                              color:  Color(0xFF630831),
+                              borderRadius: BorderRadius.circular(10.0),
+                              border: Border.all(
+                                color: Color(0xFF630831),
+                                width: 2.0,
+                              ),
+                            ),
+                            padding: EdgeInsets.all(10.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Image.asset(
+                                  'lib/images/dish.png',
+                                  width: 50,
+                                  height: 50,
+                                ),
+                                SizedBox(height: 10),
+                                Text(
+                                  'Exquisite Culinary Experience',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                SizedBox(height: 10),
+                                Text(
+                                  'Don’t taste just wine, many estates offer a unique and savoring cuisine found nowhere else.',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(height: 20,),
+                          Container(
+                            width: 300,
+                            decoration: BoxDecoration(
+
+                              borderRadius: BorderRadius.circular(10.0),
+                              border: Border.all(
+                                color: Color(0xFF630831),
+                                width: 2.0,
+                              ),
+                            ),
+                            padding: EdgeInsets.all(10.0),
+                            child: Column(
+
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Image.asset(
+                                  'lib/images/lodging-red.png',
+                                  width: 50,
+                                  height: 50,
+                                ),
+                                SizedBox(height: 10),
+                                Text(
+                                  'Lodging And Hospitality',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                SizedBox(height: 10),
+                                Text(
+                                  'Stay at atmospheric places that harbor the essence of Lebanon’s history',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],),),
+
+                      ],
+                    )
+
+                ),
+              ],),),),
+              Expanded(child: Container(child: Column(children: [
+                SizedBox(height: 20,),
+                Container(
+                  width: 300,
+                  decoration: BoxDecoration(
+
+                    borderRadius: BorderRadius.circular(10.0),
+                    border: Border.all(
+                      color: Color(0xFF630831),
+                      width: 2.0,
+                    ),
+                  ),
+                  padding: EdgeInsets.all(10.0),
+                  child: Column(
+
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Icon(
-                        Icons.circle,
-                        color: Color(0xFF630831),
-                        size: 10,
+                      Image.asset(
+                        'lib/images/landscape-red.png',
+                        width: 50,
+                        height: 50,
                       ),
-                      SizedBox(width: 10),
-                      Expanded(
-                        child: Text(
-                          'Citations In Ancient Religious Texts',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 24.0,
-                            letterSpacing: 0.0,
-                            fontStyle: FontStyle.normal,
-                            decoration: TextDecoration.none,
-                            fontFamily: 'Montserrat',
-                            height: 1.0,
-                          ),
+                      SizedBox(height: 10),
+                      Text(
+                        'Scenic Landscapes',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        'Discover the beautiful views seen from within and nearby the estates.',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ],
                   ),
-                  SizedBox(height: 10),
-                  Text(
-                    'Both the book of Hosea and that of Ezekiel reference the scent of Lebanese wine in the highest regard.',
-                    style: TextStyle(
-                      color: Color.fromRGBO(0, 5, 49, 0.5),
-                      fontFamily: 'Montserrat, sans-serif',
-                      height: 1.0,
+                ),
+                SizedBox(height: 20,),
+                Container(
+                  width: 300,
+                  decoration: BoxDecoration(
+
+                    borderRadius: BorderRadius.circular(10.0),
+                    border: Border.all(
+                      color: Color(0xFF630831),
+                      width: 2.0,
                     ),
                   ),
-                  SizedBox(height: 20),
-                  Row(
+                  padding: EdgeInsets.all(10.0),
+                  child: Column(
+
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Icon(
-                        Icons.circle,
-                        color: Color(0xFF630831),
-                        size: 10,
+                      Image.asset(
+                        'lib/images/wineglass-red.png',
+                        width: 50,
+                        height: 50,
                       ),
-                      SizedBox(width: 10),
-                      Expanded(
-                        child: Text(
-                          'Archeological Discoveries And Vestiges',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 24.0,
-                            letterSpacing: 0.0,
-                            fontStyle: FontStyle.normal,
-                            decoration: TextDecoration.none,
-                            fontFamily: 'Montserrat',
-                            height: 1.0,
-                          ),
+                      SizedBox(height: 10),
+                      Text(
+                        'Unparalleled Wine Quality',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        'Indulge yourself in a unique tasting experience and be sure to try out the wines produced from indigenous grapes',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ],
                   ),
-                  SizedBox(height: 10),
-                  Text(
-                    'Various discoveries have been made throughout Lebanon that further cement the country having historic importance in the production of wine.',
-                    style: TextStyle(
-                      color: Color.fromRGBO(0, 5, 49, 0.5),
-                      fontFamily: 'Montserrat, sans-serif',
-                      height: 1.0,
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Icon(
-                        Icons.circle,
-                        color: Color(0xFF630831),
-                        size: 10,
-                      ),
-                      SizedBox(width: 10),
-                      Expanded(
-                        child: Text(
-                          'Phoenicians Involvement',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 24.0,
-                            letterSpacing: 0.0,
-                            fontStyle: FontStyle.normal,
-                            decoration: TextDecoration.none,
-                            fontFamily: 'Montserrat',
-                            height: 1.0,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 10),
-                  Text(
-                    'The ancient thalassocratic civilization that primarily resided in Lebanon was responsible for popularizing wine throughout ancient Mediterranean.',
-                    style: TextStyle(
-                      color: Color.fromRGBO(0, 5, 49, 0.5),
-                      fontFamily: 'Montserrat, sans-serif',
-                      height: 1.0,
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Icon(
-                        Icons.circle,
-                        color: Color(0xFF630831),
-                        size: 10,
-                      ),
-                      SizedBox(width: 10),
-                      Expanded(
-                        child: Text(
-                          '18th And 19th Century Significance',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 24.0,
-                            letterSpacing: 0.0,
-                            fontStyle: FontStyle.normal,
-                            decoration: TextDecoration.none,
-                            fontFamily: 'Montserrat',
-                            height: 1.0,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 10),
-                  Text(
-                    'Esteemed authors such as Alphonse de Lamartine, Baron IJS Taylor, and many more from the 18th and 19th century continuously attest to the production of high-quality wines being produced. Wine estates were found widespread in Bekaa, Kesrouan, and all the way up to Ehden.',
-                    style: TextStyle(
-                      color: Color.fromRGBO(0, 5, 49, 0.5),
-                      fontFamily: 'Montserrat, sans-serif',
-                      height: 1.0,
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Icon(
-                        Icons.circle,
-                        color: Color(0xFF630831),
-                        size: 10,
-                      ),
-                      SizedBox(width: 10),
-                      Expanded(
-                        child: Text(
-                          'Wine Production During The Ottoman Empire',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 24.0,
-                            letterSpacing: 0.0,
-                            fontStyle:   FontStyle.normal,
-                            decoration: TextDecoration.none,
-                            fontFamily: 'Montserrat',
-                            height: 1.0,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 10),
-                  Text(
-                    'The production of wine slowed down but the know-how was maintained by convents who are authorized to produce wine for the Christian liturgy.',
-                    style: TextStyle(
-                      color: Color.fromRGBO(0, 5, 49, 0.5),
-                      fontFamily: 'Montserrat, sans-serif',
-                      height: 1.0,
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                ],
-              ),
-            ),
-
-
-
-            SizedBox(height: 30,),
-            Text('- AND MORE-' , style: TextStyle(
-              color: Color.fromRGBO(0, 5, 49 , 0.5),
-              fontFamily: 'Montserrat, sans-serif',
-              height: 1.0,
-              fontSize: 26,
-              fontWeight: FontWeight.w600,
-              fontStyle: FontStyle.italic,
-              letterSpacing: 1,
-            ),),
-            Text('A Sector That Goes Beyond Wine', style: TextStyle(
-              fontSize: 35,
-              fontWeight: FontWeight.bold,
-              fontFamily: 'MyFont',
-            ),),
-          Padding(padding: EdgeInsets.all(30),
-          child: Column(
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  color:  Color(0xFF630831),
-                  borderRadius: BorderRadius.circular(10.0),
-                  border: Border.all(
-                    color: Color(0xFF630831),
-                    width: 2.0,
-                  ),
                 ),
-                padding: EdgeInsets.all(10.0),
-                child: Column(
-
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Image.asset(
-                      'lib/images/dish.png',
-                      width: 50,
-                      height: 50,
-                    ),
-                    SizedBox(height: 10),
-                    Text(
-                      'Exquisite Culinary Experience',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    Text(
-                      'Don’t taste just wine, many estates offer a unique and savoring cuisine found nowhere else.',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 20,),
-              Container(
-                decoration: BoxDecoration(
-
-                  borderRadius: BorderRadius.circular(10.0),
-                  border: Border.all(
-                    color: Color(0xFF630831),
-                    width: 2.0,
-                  ),
-                ),
-                padding: EdgeInsets.all(10.0),
-                child: Column(
-
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Image.asset(
-                      'lib/images/lodging-red.png',
-                      width: 50,
-                      height: 50,
-                    ),
-                    SizedBox(height: 10),
-                    Text(
-                      'Lodging And Hospitality',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    Text(
-                      'Stay at atmospheric places that harbor the essence of Lebanon’s history',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 20,),
-              Container(
-                decoration: BoxDecoration(
-
-                  borderRadius: BorderRadius.circular(10.0),
-                  border: Border.all(
-                    color: Color(0xFF630831),
-                    width: 2.0,
-                  ),
-                ),
-                padding: EdgeInsets.all(10.0),
-                child: Column(
-
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Image.asset(
-                      'lib/images/landscape-red.png',
-                      width: 50,
-                      height: 50,
-                    ),
-                    SizedBox(height: 10),
-                    Text(
-                      'Scenic Landscapes',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    Text(
-                      'Discover the beautiful views seen from within and nearby the estates.',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 20,),
-              Container(
-                decoration: BoxDecoration(
-
-                  borderRadius: BorderRadius.circular(10.0),
-                  border: Border.all(
-                    color: Color(0xFF630831),
-                    width: 2.0,
-                  ),
-                ),
-                padding: EdgeInsets.all(10.0),
-                child: Column(
-
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Image.asset(
-                      'lib/images/wineglass-red.png',
-                      width: 50,
-                      height: 50,
-                    ),
-                    SizedBox(height: 10),
-                    Text(
-                      'Unparalleled Wine Quality',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    Text(
-                      'Indulge yourself in a unique tasting experience and be sure to try out the wines produced from indigenous grapes',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-
-            ],
-          )
-
-          ),
-
+              ],),))
+            ],),
+           
+          
 
           Stack(
               children: [
@@ -971,251 +1625,577 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Image.asset(
-                    'lib/images/logo.png',
-                    width: 50,
-                    height: 50,
-                    fit: BoxFit.cover,
-                  ),
-                 SizedBox(height: 30,),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: [
-                        SizedBox(
-                          width: 5,
-                        ),
-                        ElevatedButton.icon(
-                          onPressed: () {},
-                          icon: Image.asset(
-                            'lib/images/f.png',
-                            width: 16,
-                            height: 16,
-                          ),
-                          label: SizedBox.shrink(),
-                          style: ElevatedButton.styleFrom(
-                            padding: EdgeInsets.zero,
-                            minimumSize: Size(40, 40),
-                            backgroundColor: Color(0xFF3B3561),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(1),
+                  isMobile
+              ?Column(
+                    children: [
+                      Container(
+                        padding: EdgeInsets.only(left: 0,),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Image.asset(
+                              'lib/images/logo.png',
+                              width: 50,
+                              height: 50,
+                              fit: BoxFit.cover,
                             ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 5,
+                            SizedBox(height: 30,),
+                            SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                children: [
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  ElevatedButton.icon(
+                                    onPressed: () {},
+                                    icon: Image.asset(
+                                      'lib/images/f.png',
+                                      width: 16,
+                                      height: 16,
+                                    ),
+                                    label: SizedBox.shrink(),
+                                    style: ElevatedButton.styleFrom(
+                                      padding: EdgeInsets.zero,
+                                      minimumSize: Size(40, 40),
+                                      backgroundColor: Color(0xFF3B3561),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(1),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 5,
 
+                                  ),
+                                  ElevatedButton.icon(
+                                    onPressed: () {},
+                                    icon: Image.asset(
+                                      'lib/images/y.png',
+                                      width: 16,
+                                      height: 16,
+                                    ),
+                                    label: SizedBox.shrink(),
+                                    style: ElevatedButton.styleFrom(
+                                      padding: EdgeInsets.zero,
+                                      minimumSize: Size(40, 40),
+                                      backgroundColor: Color(0xFF3B3561),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(1),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  ElevatedButton.icon(
+                                    onPressed: () {},
+                                    icon: Image.asset(
+                                      'lib/images/i.png',
+                                      width: 16,
+                                      height: 16,
+                                    ),
+                                    label: SizedBox.shrink(),
+                                    style: ElevatedButton.styleFrom(
+                                      padding: EdgeInsets.zero,
+                                      minimumSize: Size(40, 40),
+                                      backgroundColor: Color(0xFF3B3561),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(1),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  ElevatedButton.icon(
+                                    onPressed: () {},
+                                    icon: Image.asset(
+                                      'lib/images/tw.png',
+                                      width: 16,
+                                      height: 16,
+                                    ),
+                                    label: SizedBox.shrink(),
+                                    style: ElevatedButton.styleFrom(
+                                      padding: EdgeInsets.zero,
+                                      minimumSize: Size(40, 40),
+                                      backgroundColor: Color(0xFF3B3561),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(1),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                ],
+                              ),
+                            )
+
+                          ],
                         ),
-                        ElevatedButton.icon(
-                          onPressed: () {},
-                          icon: Image.asset(
-                            'lib/images/y.png',
-                            width: 16,
-                            height: 16,
-                          ),
-                          label: SizedBox.shrink(),
-                          style: ElevatedButton.styleFrom(
-                            padding: EdgeInsets.zero,
-                            minimumSize: Size(40, 40),
-                            backgroundColor: Color(0xFF3B3561),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(1),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('Useful Links',
+                              style: TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.w700,
+                                color:  Colors.white,
+                              ),),
+                            SizedBox(height: 30,),
+                            Row(
+                              children: [
+                                Icon(Icons.arrow_forward,  color: Color(0xFF630831),),
+                                Text('Home',
+                                  style: TextStyle(
+                                    color:  Colors.white,
+
+                                  ),),
+
+                              ],
                             ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        ElevatedButton.icon(
-                          onPressed: () {},
-                          icon: Image.asset(
-                            'lib/images/i.png',
-                            width: 16,
-                            height: 16,
-                          ),
-                          label: SizedBox.shrink(),
-                          style: ElevatedButton.styleFrom(
-                            padding: EdgeInsets.zero,
-                            minimumSize: Size(40, 40),
-                            backgroundColor: Color(0xFF3B3561),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(1),
+                            SizedBox(height: 30,),
+                            Row(
+                              children: [
+                                Icon(Icons.arrow_forward ,  color: Color(0xFF630831),),
+                                Text('News',
+                                  style: TextStyle(
+                                    color:  Colors.white,
+
+                                  ),),
+
+                              ],
                             ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                          Text('Resources',
+                            style: TextStyle(
+                              color:  Colors.white,
+                              fontSize: 24,
+                              fontWeight: FontWeight.w700,
+                            ),),
+                          SizedBox(height: 30,),
+                          Row(
+                            children: [
+                              Icon(Icons.arrow_forward ,  color: Color(0xFF630831),),
+                              Text('About Us',
+                                style: TextStyle(
+                                  color:  Colors.white,
+                                  decoration: TextDecoration.underline,
+                                ),),
+
+                            ],
                           ),
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        ElevatedButton.icon(
-                          onPressed: () {},
-                          icon: Image.asset(
-                            'lib/images/tw.png',
-                            width: 16,
-                            height: 16,
+                          SizedBox(height: 30,),
+                          Row(
+                            children: [
+                              Icon(Icons.arrow_forward , color: Color(0xFF630831),),
+                              Text('Contact Us',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color:  Colors.white,
+                                  decoration: TextDecoration.underline,
+                                ),),
+
+                            ],
                           ),
-                          label: SizedBox.shrink(),
-                          style: ElevatedButton.styleFrom(
-                            padding: EdgeInsets.zero,
-                            minimumSize: Size(40, 40),
-                            backgroundColor: Color(0xFF3B3561),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(1),
-                            ),
+
+                        ],),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.all(16.0),
+
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                          Text('Contact Information',
+                            style: TextStyle(
+                              color:  Colors.white,
+                              fontSize: 24,
+                              fontWeight: FontWeight.w700,
+                            ),),
+                          SizedBox(height: 30,),
+                          Row(
+                            children: [
+                              Icon(Icons.mail ,  color: Color(0xFF630831),),
+                              GestureDetector(
+                                onTap: () {
+                                  _launchEmail('info@100p100liban.org');
+                                },
+                                child: Text(
+                                  'info@100p100liban.org',
+                                  style: TextStyle(
+                                    color:  Colors.white,
+                                    decoration: TextDecoration.underline,
+                                  ),
+                                ),
+                              ) ,
+
+                            ],
                           ),
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                      ],
-                    ),
+                          SizedBox(height: 30,),
+                          Row(
+                            children: [
+                              Icon(FontAwesomeIcons.globe ,  color: Color(0xFF630831),),
+                              GestureDetector(
+                                onTap: () {
+                                  _launchWebsite('https://www.winetourismlebanon.org');
+                                },
+                                child: Text(
+                                  'www.winetourismlebanon.org',
+                                  style: TextStyle(
+                                    color:  Colors.white,
+                                    decoration: TextDecoration.underline,
+                                  ),
+                                ),
+                              ) ,
+
+                            ],
+                          ),
+                          SizedBox(height: 30,),
+                          Row(
+                            children: [
+                              Icon(Icons.location_on_outlined, color: Color(0xFF630831)),
+                              Expanded(
+                                child: GestureDetector(
+                                  onTap: () {
+                                    _launchMap();
+                                  },
+                                  child: Text(
+                                    'sin el fil, horch tabet, pierre michaca building, ground floor',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      decoration: TextDecoration.underline,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+
+                          SizedBox(height: 30,),
+                          Row(
+                            children: [
+                              Icon(Icons.phone_iphone_outlined ,  color: Color(0xFF630831),),
+                              GestureDetector(
+                                onTap: () {
+                                  _launchPhone('+9613528255');
+                                },
+                                child: Text(
+                                  '+961 3 52 82 55',
+                                  style: TextStyle(
+                                    color:  Colors.white,
+                                    decoration: TextDecoration.underline,
+                                  ),
+                                ),
+                              ) ,
+
+                            ],
+                          ),
+
+                        ],),
+                      )
+                    ],
                   )
-                  ,
-                  SizedBox(height: 30,),
-                 Text('Useful Links',
-                   style: TextStyle(
-                     fontSize: 24,
-                     fontWeight: FontWeight.w700,
-                     color:  Colors.white,
-                   ),),
-                  SizedBox(height: 30,),
-                  Row(
+                  :Row(
                     children: [
-                      Icon(Icons.arrow_forward,  color: Color(0xFF630831),),
-                      Text('Home',
-                        style: TextStyle(
-                          color:  Colors.white,
+                      Expanded(child:Container(
+                        padding: EdgeInsets.only(left: 0,),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Image.asset(
+                              'lib/images/logo.png',
+                              width: 50,
+                              height: 50,
+                              fit: BoxFit.cover,
+                            ),
+                            SizedBox(height: 30,),
+                            SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                children: [
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  ElevatedButton.icon(
+                                    onPressed: () {},
+                                    icon: Image.asset(
+                                      'lib/images/f.png',
+                                      width: 16,
+                                      height: 16,
+                                    ),
+                                    label: SizedBox.shrink(),
+                                    style: ElevatedButton.styleFrom(
+                                      padding: EdgeInsets.zero,
+                                      minimumSize: Size(40, 40),
+                                      backgroundColor: Color(0xFF3B3561),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(1),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 5,
 
-                        ),),
+                                  ),
+                                  ElevatedButton.icon(
+                                    onPressed: () {},
+                                    icon: Image.asset(
+                                      'lib/images/y.png',
+                                      width: 16,
+                                      height: 16,
+                                    ),
+                                    label: SizedBox.shrink(),
+                                    style: ElevatedButton.styleFrom(
+                                      padding: EdgeInsets.zero,
+                                      minimumSize: Size(40, 40),
+                                      backgroundColor: Color(0xFF3B3561),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(1),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  ElevatedButton.icon(
+                                    onPressed: () {},
+                                    icon: Image.asset(
+                                      'lib/images/i.png',
+                                      width: 16,
+                                      height: 16,
+                                    ),
+                                    label: SizedBox.shrink(),
+                                    style: ElevatedButton.styleFrom(
+                                      padding: EdgeInsets.zero,
+                                      minimumSize: Size(40, 40),
+                                      backgroundColor: Color(0xFF3B3561),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(1),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  ElevatedButton.icon(
+                                    onPressed: () {},
+                                    icon: Image.asset(
+                                      'lib/images/tw.png',
+                                      width: 16,
+                                      height: 16,
+                                    ),
+                                    label: SizedBox.shrink(),
+                                    style: ElevatedButton.styleFrom(
+                                      padding: EdgeInsets.zero,
+                                      minimumSize: Size(40, 40),
+                                      backgroundColor: Color(0xFF3B3561),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(1),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                ],
+                              ),
+                            )
 
-                    ],
-                  ),
-                  SizedBox(height: 30,),
-                  Row(
-                    children: [
-                      Icon(Icons.arrow_forward ,  color: Color(0xFF630831),),
-                      Text('News',
-                        style: TextStyle(
-                          color:  Colors.white,
-
-                        ),),
-
-                    ],
-                  ),
-                  SizedBox(height: 30,),
-                  Text('Resources',
-                    style: TextStyle(
-                      color:  Colors.white,
-                      fontSize: 24,
-                      fontWeight: FontWeight.w700,
-                    ),),
-                  SizedBox(height: 30,),
-                  Row(
-                    children: [
-                      Icon(Icons.arrow_forward ,  color: Color(0xFF630831),),
-                      Text('About Us',
-                        style: TextStyle(
-                          color:  Colors.white,
-                          decoration: TextDecoration.underline,
-                        ),),
-
-                    ],
-                  ),
-                  SizedBox(height: 30,),
-                  Row(
-                    children: [
-                      Icon(Icons.arrow_forward , color: Color(0xFF630831),),
-                      Text('Contact Us',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color:  Colors.white,
-                          decoration: TextDecoration.underline,
-                        ),),
-
-                    ],
-                  ),
-                  SizedBox(height: 30,),
-                  Text('Contact Information',
-                    style: TextStyle(
-                      color:  Colors.white,
-                      fontSize: 24,
-                      fontWeight: FontWeight.w700,
-                    ),),
-                  SizedBox(height: 30,),
-                  Row(
-                    children: [
-                      Icon(Icons.mail ,  color: Color(0xFF630831),),
-                      GestureDetector(
-                        onTap: () {
-                          _launchEmail('info@100p100liban.org');
-                        },
-                        child: Text(
-                          'info@100p100liban.org',
-                          style: TextStyle(
-                            color:  Colors.white,
-                            decoration: TextDecoration.underline,
-                          ),
+                          ],
                         ),
-                      ) ,
+                      ),),
+                      Expanded(child: Container(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('Useful Links',
+                              style: TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.w700,
+                                color:  Colors.white,
+                              ),),
+                            SizedBox(height: 30,),
+                            Row(
+                              children: [
+                                Icon(Icons.arrow_forward,  color: Color(0xFF630831),),
+                                Text('Home',
+                                  style: TextStyle(
+                                    color:  Colors.white,
 
-                    ],
-                  ),
-                  SizedBox(height: 30,),
-                  Row(
-                    children: [
-                      Icon(FontAwesomeIcons.globe ,  color: Color(0xFF630831),),
-                      GestureDetector(
-                        onTap: () {
-                          _launchWebsite('https://www.winetourismlebanon.org');
-                        },
-                        child: Text(
-                          'www.winetourismlebanon.org',
-                          style: TextStyle(
-                            color:  Colors.white,
-                            decoration: TextDecoration.underline,
-                          ),
+                                  ),),
+
+                              ],
+                            ),
+                            SizedBox(height: 30,),
+                            Row(
+                              children: [
+                                Icon(Icons.arrow_forward ,  color: Color(0xFF630831),),
+                                Text('News',
+                                  style: TextStyle(
+                                    color:  Colors.white,
+
+                                  ),),
+
+                              ],
+                            ),
+                          ],
                         ),
-                      ) ,
+                      ),),
+                      Expanded(child:   Container(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('Resources',
+                              style: TextStyle(
+                                color:  Colors.white,
+                                fontSize: 24,
+                                fontWeight: FontWeight.w700,
+                              ),),
+                            SizedBox(height: 30,),
+                            Row(
+                              children: [
+                                Icon(Icons.arrow_forward ,  color: Color(0xFF630831),),
+                                Text('About Us',
+                                  style: TextStyle(
+                                    color:  Colors.white,
+                                    decoration: TextDecoration.underline,
+                                  ),),
 
+                              ],
+                            ),
+                            SizedBox(height: 30,),
+                            Row(
+                              children: [
+                                Icon(Icons.arrow_forward , color: Color(0xFF630831),),
+                                Text('Contact Us',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color:  Colors.white,
+                                    decoration: TextDecoration.underline,
+                                  ),),
+
+                              ],
+                            ),
+
+                          ],),
+                      ),),
+                      Expanded(child: Container(
+                        padding: const EdgeInsets.all(16.0),
+
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('Contact Information',
+                              style: TextStyle(
+                                color:  Colors.white,
+                                fontSize: 24,
+                                fontWeight: FontWeight.w700,
+                              ),),
+                            SizedBox(height: 30,),
+                            Row(
+                              children: [
+                                Icon(Icons.mail ,  color: Color(0xFF630831),),
+                                GestureDetector(
+                                  onTap: () {
+                                    _launchEmail('info@100p100liban.org');
+                                  },
+                                  child: Text(
+                                    'info@100p100liban.org',
+                                    style: TextStyle(
+                                      color:  Colors.white,
+                                      decoration: TextDecoration.underline,
+                                    ),
+                                  ),
+                                ) ,
+
+                              ],
+                            ),
+                            SizedBox(height: 30,),
+                            Row(
+                              children: [
+                                Icon(FontAwesomeIcons.globe ,  color: Color(0xFF630831),),
+                                GestureDetector(
+                                  onTap: () {
+                                    _launchWebsite('https://www.winetourismlebanon.org');
+                                  },
+                                  child: Text(
+                                    'www.winetourismlebanon.org',
+                                    style: TextStyle(
+                                      color:  Colors.white,
+                                      decoration: TextDecoration.underline,
+                                    ),
+                                  ),
+                                ) ,
+
+                              ],
+                            ),
+                            SizedBox(height: 30,),
+                            Row(
+                              children: [
+                                Icon(Icons.location_on_outlined, color: Color(0xFF630831)),
+                                Expanded(
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      _launchMap();
+                                    },
+                                    child: Text(
+                                      'sin el fil, horch tabet, pierre michaca building, ground floor',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        decoration: TextDecoration.underline,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+
+                            SizedBox(height: 30,),
+                            Row(
+                              children: [
+                                Icon(Icons.phone_iphone_outlined ,  color: Color(0xFF630831),),
+                                GestureDetector(
+                                  onTap: () {
+                                    _launchPhone('+9613528255');
+                                  },
+                                  child: Text(
+                                    '+961 3 52 82 55',
+                                    style: TextStyle(
+                                      color:  Colors.white,
+                                      decoration: TextDecoration.underline,
+                                    ),
+                                  ),
+                                ) ,
+
+                              ],
+                            ),
+
+                          ],),
+                      ))
                     ],
                   ),
-                  SizedBox(height: 30,),
-                  Row(
-                    children: [
-                      Icon(Icons.location_on_outlined , color: Color(0xFF630831),),
-                      GestureDetector(
-                        onTap: () {
-                          _launchMap();
-                        },
-                        child: Text(
-                          'sin el fil, horch tabet, pierre michaca building, ground floor',
-                          style: TextStyle(
-                            color:  Colors.white,
-                            decoration: TextDecoration.underline,
-                          ),
-                        ),
-                      ) ,
 
-                    ],
-                  ),
-                  SizedBox(height: 30,),
-                  Row(
-                    children: [
-                      Icon(Icons.phone_iphone_outlined ,  color: Color(0xFF630831),),
-                      GestureDetector(
-                        onTap: () {
-                          _launchPhone('+9613528255');
-                        },
-                        child: Text(
-                          '+961 3 52 82 55',
-                          style: TextStyle(
-                            color:  Colors.white,
-                            decoration: TextDecoration.underline,
-                          ),
-                        ),
-                      ) ,
-
-                    ],
-                  ),
                   SizedBox(height: 30,),
                   Text('© 2022 Created by: Telepaty',
                     style: TextStyle(
@@ -1241,6 +2221,7 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
+    ),
     );
   }
 }

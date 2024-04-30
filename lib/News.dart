@@ -59,8 +59,9 @@ class _NewsState extends State<News> {
   }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: _scaffoldKey,
+    final bool isMobile = MediaQuery.of(context).size.width < 600;
+    return Builder(
+        builder: (context) => Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xFF630831),
         leading: Padding(
@@ -72,20 +73,83 @@ class _NewsState extends State<News> {
             fit: BoxFit.cover,
           ),
         ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.menu),
-            onPressed: () {
-              if (_scaffoldKey.currentState != null) {
-                _scaffoldKey.currentState!.openDrawer();
-              } else {
-                print('Scaffold key is null');
-              }
-            },
+        title: isMobile ? Text('About Us', style: TextStyle(color: Colors.white)) : null,
+        actions: isMobile
+            ? [
+          Builder(
+            builder: (context) => IconButton(
+              icon: const Icon(Icons.menu),
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              },
+            ),
           ),
+        ]
+            : [Padding(
+          padding: EdgeInsets.only(right: 40),
+          child: GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => HomePage()),
+              );
+            },
+            child: Text(
+              'Home',
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+        ),
+          Padding(
+            padding: EdgeInsets.only(right: 40),
+            child: GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => AboutUs()),
+                );
+              },
+              child: Text(
+                'About Us',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(right: 40),
+            child: GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => News()),
+                );
+              },
+              child: Text(
+                'News',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(right: 40),
+            child: GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ContactUs()),
+                );
+              },
+              child: Text(
+                'Contact Us',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+          ),
+
         ],
       ),
-      drawer: Drawer(
+      drawer: isMobile
+          ? Drawer(
         backgroundColor: const Color(0xFF630831),
         child: ListView(
           children: [
@@ -129,291 +193,250 @@ class _NewsState extends State<News> {
             ),
           ],
         ),
-      ),
+      )
+          : null,
       body:  SingleChildScrollView(
-
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('LATEST NEWS',style: TextStyle(
-              fontSize: 47,
-              fontWeight: FontWeight.bold,
-              fontFamily: 'MyFont',
+            isMobile 
+            ?Column(children: [
+              Container(
+                child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('LATEST NEWS',style: TextStyle(
+                    fontSize: 47,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'MyFont',
 
-            ),),
-            Stack(
-              children: [
-                Padding(
-                  padding: EdgeInsets.all(30),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(1),
-                    child: Image.asset(
-                      'lib/images/blog-1.png',
-                      height: 200,
-                      width: 500,
-                      fit: BoxFit.cover,
-                    ),
-
-                  ),
-                ),
-
-                Positioned(
-                  bottom: -10,
-                  left: 20,
-                  child: Row(
+                  ),),
+                  Stack(
                     children: [
-                      Icon(Icons.bookmark_border),
-                      Text('Ranked', style: TextStyle(
-                        color: Color.fromRGBO(0, 5, 49 , 0.5),
-                        fontFamily: 'Montserrat, sans-serif',
-                        height: 1.0,
-                      ),),
-                      SizedBox(width: 10),
-                      Text('|'),
-                      SizedBox(width: 10),
-                      Icon(Icons.person_outline),
-                      Text('karinekeuchkerian' , style: TextStyle(
-                        color: Color.fromRGBO(0, 5, 49 , 0.5),
-                        fontFamily: 'Montserrat, sans-serif',
-                        height: 1.0,
-                      ),),
-                      Container(
-                        width: 100,
-                        height: 55,
-                        decoration: BoxDecoration(
-
-                          color:  Color(0xFF3B3561),
-                          border: Border.all(color: Colors.white),
-                          borderRadius: BorderRadius.circular(1),
-                        ),
+                      Padding(
+                        padding: EdgeInsets.all(30),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(1),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(7),
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 0),
-                              child: RichText(
-                                textAlign: TextAlign.center,
-                                text: TextSpan(
-                                  children: <TextSpan>[
-                                    TextSpan(text: '04\n', style: TextStyle(color: Colors.white, fontSize: 22)),
-                                    TextSpan(text: 'NOV , 2022', style: TextStyle(color: Colors.white, fontSize: 12)),
-                                  ],
-                                ),
-                              ),
-                            ),
+                          child: Image.asset(
+                            'lib/images/blog-1.png',
+                            height: 200,
+                            width: 500,
+                            fit: BoxFit.cover,
                           ),
 
                         ),
-                      )
+                      ),
+
+                      Positioned(
+                        bottom: -10,
+                        left: 20,
+                        child: Row(
+                          children: [
+                            Icon(Icons.bookmark_border),
+                            Text('Ranked', style: TextStyle(
+                              color: Color.fromRGBO(0, 5, 49 , 0.5),
+                              fontFamily: 'Montserrat, sans-serif',
+                              height: 1.0,
+                            ),),
+                            SizedBox(width: 10),
+                            Text('|'),
+                            SizedBox(width: 10),
+                            Icon(Icons.person_outline),
+                            Text('karinekeuchkerian' , style: TextStyle(
+                              color: Color.fromRGBO(0, 5, 49 , 0.5),
+                              fontFamily: 'Montserrat, sans-serif',
+                              height: 1.0,
+                            ),),
+                            Container(
+                              width: 100,
+                              height: 55,
+                              decoration: BoxDecoration(
+
+                                color:  Color(0xFF3B3561),
+                                border: Border.all(color: Colors.white),
+                                borderRadius: BorderRadius.circular(1),
+                              ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(1),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(7),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 0),
+                                    child: RichText(
+                                      textAlign: TextAlign.center,
+                                      text: TextSpan(
+                                        children: <TextSpan>[
+                                          TextSpan(text: '04\n', style: TextStyle(color: Colors.white, fontSize: 22)),
+                                          TextSpan(text: 'NOV , 2022', style: TextStyle(color: Colors.white, fontSize: 12)),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+
+                              ),
+                            )
+
+                          ],
+                        ),
+                      ),
 
                     ],
                   ),
-                ),
+                  SizedBox(height: 50,),
+                  Text('Lebanon Vineyards Rank Among The Best In The World' ,
+                    style: TextStyle(  color: Colors.black,
+                      fontSize: 24.0,
+                      height: 1.5,
+                      letterSpacing: 0.0,
+                      fontStyle: FontStyle.normal,
+                      decoration: TextDecoration.none,
+                      decorationColor: null,
+                      decorationStyle: TextDecorationStyle.solid,
+                      fontFamily: 'Montserrat',
 
-              ],
-            ),
-            SizedBox(height: 50,),
-            Text('Lebanon Vineyards Rank Among The Best In The World' ,
-              style: TextStyle(  color: Colors.black,
-                fontSize: 24.0,
-                height: 1.5,
-                letterSpacing: 0.0,
-                fontStyle: FontStyle.normal,
-                decoration: TextDecoration.none,
-                decorationColor: null,
-                decorationStyle: TextDecorationStyle.solid,
-                fontFamily: 'Montserrat',
+                    ),),
+                  SizedBox(height: 20,),
+                  Text('5 Lebanese vineyards earned spots in the 2022’s World’s Best Vineyards.'
+                    , style: TextStyle(
+                      color: Color.fromRGBO(0, 5, 49 , 0.5),
+                      fontFamily: 'Montserrat, sans-serif',
+                      height: 1.0,
+                    ),),
+                  SizedBox(height: 20,),
+                  GestureDetector(
+                    onTap: () {
 
-              ),),
-            SizedBox(height: 20,),
-            Text('5 Lebanese vineyards earned spots in the 2022’s World’s Best Vineyards.'
-              , style: TextStyle(
-                color: Color.fromRGBO(0, 5, 49 , 0.5),
-                fontFamily: 'Montserrat, sans-serif',
-                height: 1.0,
-              ),),
-            SizedBox(height: 20,),
-            GestureDetector(
-              onTap: () {
+                    },
+                    child: Text(
+                      'READ MORE ->',
+                      style: TextStyle(
+                        color:  Color(0xFF630831),
 
-              },
-              child: Text(
-                'READ MORE ->',
-                style: TextStyle(
-                  color:  Color(0xFF630831),
+                      ),
+                    ),
+                  ) ,
 
-                ),
-              ),
-            ) ,
-            SizedBox(height: 40,),
-            Row(
-              children: [
-                Icon(Icons.access_time),
-                Text('Recent Posts'),
+                ],),),
+          SingleChildScrollView(
+            child:  Container(
+              width: 300,
 
-              ],
-            ),
-            Container(
-              decoration: BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(
-                    color:Color(0xFF630831),
-                    width: 2.0,
-                  ),
-                ),
-              ),
-            ),
-            GestureDetector(
-              onTap: (){},
-              child: Row(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Image.asset('images/k.jpg'),
-                  Column(
+                  Row(
                     children: [
-                      Text('This Is the Article Title'),
-                      Text('Jun,15 2021'),
+                      Icon(Icons.access_time),
+                      Text('Recent Posts'),
                     ],
                   ),
-                ],
-              ),
-            ),
-            GestureDetector(
-              onTap: (){},
-              child: Row(
-                children: [
-                  Image.asset('images/k.jpg'),
-                  Column(
-                    children: [
-                      Text('This Is the Article Title'),
-                      Text('May,10 2021'),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            GestureDetector(
-              onTap: (){},
-              child: Row(
-                children: [
-                  Image.asset('images/k.jpg'),
-                  Column(
-                    children: [
-                      Text('This Is the Article Title'),
-                      Text('Feb,28 2021'),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            GestureDetector(
-              onTap: (){},
-              child: Row(
-                children: [
-                  Image.asset('images/k.jpg'),
-                  Column(
-                    children: [
-                      Text('This Is the Article Title'),
-                      Text('Jun,07 2021'),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: 20,),
-            Row(
-              children: [
-                Icon(Icons.favorite_border),
-                Text('Follow Us On :'),
-
-              ],
-            ),
-            Container(
-              decoration: BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(
-                    color:Color(0xFF630831),
-                    width: 2.0,
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(height: 20,),
-            Row(
-              children: [
-                SizedBox(width: 20,),
-                Container(
-                  width: 25,
-                  height: 25,
-
-                  decoration: BoxDecoration(
-                    color:  Colors.red,
-                    borderRadius: BorderRadius.circular(1),
-                  ),
-                  child: ElevatedButton.icon(
-                    onPressed: () {},
-                    icon: Icon(Icons.facebook, color: Colors.white),
-                    label: Text(''),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.transparent,
-                      shadowColor: Colors.transparent,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(1),
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(
+                          color:Color(0xFF630831),
+                          width: 2.0,
+                        ),
                       ),
                     ),
                   ),
-                ),
-                SizedBox(width: 20,),
+                  GestureDetector(
+                    onTap: (){},
+                    child: Container(
+                      height: 100,
+                      child: Row(
+                        children: [
+                          Image.asset(
+                            'images/k.jpg',
+                          ),
+                          SizedBox(width: 10,),
+                          Expanded( child: Column(
+                            children: [
+                              Text('This Is the Article Title'),
+                              Text('Jun,15 2021'),
+                            ],
+                          ),)
 
-                ElevatedButton.icon(onPressed: (){}, icon: Icon(Icons.facebook , ), label:Text('')),
-          ElevatedButton.icon(onPressed: (){}, icon:Image.asset(
-            'lib/images/y.png',
-            width: 24,
-            height: 24,
-          ), label:Text('') ),
-                ElevatedButton.icon(
-                  onPressed: () {},
-                  icon: Image.asset(
-                    'lib/images/instagram.png',
-                    width: 24,
-                    height: 24,
+                        ],
+                      ),
+                    ),
                   ),
-                  label: Text(''),),
-                ElevatedButton.icon(onPressed: (){}, icon: Image.asset(
-                  'lib/images/twitter.png',
-                  width: 24,
-                  height: 24,
-                ), label:Text('')),
-              ],
-            ),
+                   GestureDetector(
+                    onTap: (){},
+                    child:
+                    Expanded(child: Row(
+                      children: [
+                        Image.asset('images/k.jpg',
+                          width: 100, height: 100,),
+                        Column(
+                          children: [
+                            Text('This Is the Article Title'),
+                            Text('May,10 2021'),
+                          ],
+                        ),
+                      ],
+                    ),),
 
-SizedBox(height: 40,),
-            Container(
-              color: Color(0xFF060922),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.all(20),
-                    child: Image.asset(
-                      'lib/images/logo.png',
-                      width: 75,
-                      height: 75,
-                      fit: BoxFit.cover,
+                  ),
+                  GestureDetector(
+                    onTap: (){},
+                    child: Row(
+                      children: [
+                        Image.asset('images/k.jpg',
+                          width: 100, height: 100,),
+                        Column(
+                          children: [
+                            Text('This Is the Article Title'),
+                            Text('Feb,28 2021'),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: (){},
+                    child: Row(
+                      children: [
+                        Image.asset('images/k.jpg',
+                          width: 100, height: 100,),
+                        Column(
+                          children: [
+                            Text('This Is the Article Title'),
+                            Text('Jun,07 2021'),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
                   SizedBox(height: 20,),
+                  Row(
+                    children: [
+                      Icon(Icons.favorite_border),
+                      Text('Follow Us On :'),
 
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: [
-                        SizedBox(
-                          width: 5,
+                    ],
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(
+                          color:Color(0xFF630831),
+                          width: 2.0,
                         ),
-                        ElevatedButton.icon(
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 20,),
+                  Row(
+                    children: [
+                      SizedBox(width: 20,),
+                      Container(
+                        width: 25,
+                        height: 25,
+
+                        child: ElevatedButton.icon(
                           onPressed: () {},
                           icon: Image.asset(
                             'lib/images/f.png',
@@ -430,226 +453,953 @@ SizedBox(height: 40,),
                             ),
                           ),
                         ),
-                        SizedBox(
-                          width: 5,
+                      ),
+                      SizedBox(width: 20,),
+
+                      ElevatedButton.icon(
+                        onPressed: () {},
+                        icon: Image.asset(
+                          'lib/images/y.png',
+                          width: 16,
+                          height: 16,
+                        ),
+                        label: SizedBox.shrink(),
+                        style: ElevatedButton.styleFrom(
+                          padding: EdgeInsets.zero,
+                          minimumSize: Size(40, 40),
+                          backgroundColor: Color(0xFF3B3561),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(1),
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 20,),
+                      ElevatedButton.icon(
+                        onPressed: () {},
+                        icon: Image.asset(
+                          'lib/images/i.png',
+                          width: 16,
+                          height: 16,
+                        ),
+                        label: SizedBox.shrink(),
+                        style: ElevatedButton.styleFrom(
+                          padding: EdgeInsets.zero,
+                          minimumSize: Size(40, 40),
+                          backgroundColor: Color(0xFF3B3561),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(1),
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 20,),
+                      ElevatedButton.icon(
+                        onPressed: () {},
+                        icon: Image.asset(
+                          'lib/images/tw.png',
+                          width: 16,
+                          height: 16,
+                        ),
+                        label: SizedBox.shrink(),
+                        style: ElevatedButton.styleFrom(
+                          padding: EdgeInsets.zero,
+                          minimumSize: Size(40, 40),
+                          backgroundColor: Color(0xFF3B3561),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(1),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],),),),
+
+
+            ],)
+            :Row(children: [
+              Expanded(child: Container(child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('LATEST NEWS',style: TextStyle(
+                    fontSize: 47,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'MyFont',
+
+                  ),),
+                  Stack(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.all(30),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(1),
+                          child: Image.asset(
+                            'lib/images/blog-1.png',
+                            height: 200,
+                            width: 500,
+                            fit: BoxFit.cover,
+                          ),
 
                         ),
-                        ElevatedButton.icon(
-                          onPressed: () {},
-                          icon: Image.asset(
-                            'lib/images/youtube.png',
-                            width: 16,
-                            height: 16,
-                          ),
-                          label: SizedBox.shrink(),
-                          style: ElevatedButton.styleFrom(
-                            padding: EdgeInsets.zero,
-                            minimumSize: Size(40, 40),
-                            backgroundColor: Color(0xFF3B3561),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(1),
-                            ),
-                          ),
+                      ),
+
+                      Positioned(
+                        bottom: -10,
+                        left: 20,
+                        child: Row(
+                          children: [
+                            Icon(Icons.bookmark_border),
+                            Text('Ranked', style: TextStyle(
+                              color: Color.fromRGBO(0, 5, 49 , 0.5),
+                              fontFamily: 'Montserrat, sans-serif',
+                              height: 1.0,
+                            ),),
+                            SizedBox(width: 10),
+                            Text('|'),
+                            SizedBox(width: 10),
+                            Icon(Icons.person_outline),
+                            Text('karinekeuchkerian' , style: TextStyle(
+                              color: Color.fromRGBO(0, 5, 49 , 0.5),
+                              fontFamily: 'Montserrat, sans-serif',
+                              height: 1.0,
+                            ),),
+                            Container(
+                              width: 100,
+                              height: 55,
+                              decoration: BoxDecoration(
+
+                                color:  Color(0xFF3B3561),
+                                border: Border.all(color: Colors.white),
+                                borderRadius: BorderRadius.circular(1),
+                              ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(1),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(7),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 0),
+                                    child: RichText(
+                                      textAlign: TextAlign.center,
+                                      text: TextSpan(
+                                        children: <TextSpan>[
+                                          TextSpan(text: '04\n', style: TextStyle(color: Colors.white, fontSize: 22)),
+                                          TextSpan(text: 'NOV , 2022', style: TextStyle(color: Colors.white, fontSize: 12)),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+
+                              ),
+                            )
+
+                          ],
                         ),
-                        SizedBox(
-                          width: 5,
+                      ),
+
+                    ],
+                  ),
+                  SizedBox(height: 50,),
+                  Text('Lebanon Vineyards Rank Among The Best In The World' ,
+                    style: TextStyle(  color: Colors.black,
+                      fontSize: 24.0,
+                      height: 1.5,
+                      letterSpacing: 0.0,
+                      fontStyle: FontStyle.normal,
+                      decoration: TextDecoration.none,
+                      decorationColor: null,
+                      decorationStyle: TextDecorationStyle.solid,
+                      fontFamily: 'Montserrat',
+
+                    ),),
+                  SizedBox(height: 20,),
+                  Text('5 Lebanese vineyards earned spots in the 2022’s World’s Best Vineyards.'
+                    , style: TextStyle(
+                      color: Color.fromRGBO(0, 5, 49 , 0.5),
+                      fontFamily: 'Montserrat, sans-serif',
+                      height: 1.0,
+                    ),),
+                  SizedBox(height: 20,),
+                  GestureDetector(
+                    onTap: () {
+
+                    },
+                    child: Text(
+                      'READ MORE ->',
+                      style: TextStyle(
+                        color:  Color(0xFF630831),
+
+                      ),
+                    ),
+                  ) ,
+
+                ],),),),
+              Expanded(child: Container(child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Icon(Icons.access_time),
+                      Text('Recent Posts'),
+
+                    ],
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(
+                          color:Color(0xFF630831),
+                          width: 2.0,
                         ),
-                        ElevatedButton.icon(
-                          onPressed: () {},
-                          icon: Image.asset(
-                            'lib/images/i.png',
-                            width: 16,
-                            height: 16,
-                          ),
-                          label: SizedBox.shrink(),
-                          style: ElevatedButton.styleFrom(
-                            padding: EdgeInsets.zero,
-                            minimumSize: Size(40, 40),
-                            backgroundColor: Color(0xFF3B3561),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(1),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        ElevatedButton.icon(
-                          onPressed: () {},
-                          icon: Image.asset(
-                            'lib/images/tw.png',
-                            width: 16,
-                            height: 16,
-                          ),
-                          label: SizedBox.shrink(),
-                          style: ElevatedButton.styleFrom(
-                            padding: EdgeInsets.zero,
-                            minimumSize: Size(40, 40),
-                            backgroundColor: Color(0xFF3B3561),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(1),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 10,
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: (){},
+                    child: Row(
+                      children: [
+                        Image.asset('images/k.jpg'),
+                        Column(
+                          children: [
+                            Text('This Is the Article Title'),
+                            Text('Jun,15 2021'),
+                          ],
                         ),
                       ],
                     ),
                   ),
-                  SizedBox(height: 30,),
-                  Text('Useful Links',
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.w700,
-                      color:  Colors.white,
-                    ),),
-                  SizedBox(height: 30,),
+                  GestureDetector(
+                    onTap: (){},
+                    child: Row(
+                      children: [
+                        Image.asset('images/k.jpg'),
+                        Column(
+                          children: [
+                            Text('This Is the Article Title'),
+                            Text('May,10 2021'),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: (){},
+                    child: Row(
+                      children: [
+                        Image.asset('images/k.jpg'),
+                        Column(
+                          children: [
+                            Text('This Is the Article Title'),
+                            Text('Feb,28 2021'),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: (){},
+                    child: Row(
+                      children: [
+                        Image.asset('images/k.jpg'),
+                        Column(
+                          children: [
+                            Text('This Is the Article Title'),
+                            Text('Jun,07 2021'),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 20,),
                   Row(
                     children: [
-                      Icon(Icons.arrow_forward ,  color:   Color(0xFF630831),),
-                      Text('Home' , style: TextStyle(color: Colors.white),),
+                      Icon(Icons.favorite_border),
+                      Text('Follow Us On :'),
 
                     ],
                   ),
-                  SizedBox(height: 30,),
-                  Row(
-                    children: [
-                      Icon(Icons.arrow_forward, color: Color(0xFF630831),),
-                      Text('News',
-                        style: TextStyle(
-                          color:  Colors.white,
-
-                        ),),
-
-                    ],
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(
+                          color:Color(0xFF630831),
+                          width: 2.0,
+                        ),
+                      ),
+                    ),
                   ),
-                  SizedBox(height: 30,),
-                  Text('Resources',
-                    style: TextStyle(
-                      color:  Colors.white,
-                      fontSize: 24,
-                      fontWeight: FontWeight.w700,
-                    ),),
-                  SizedBox(height: 30,),
+                  SizedBox(height: 20,),
                   Row(
                     children: [
-                      Icon(Icons.arrow_forward , color: Color(0xFF630831),),
-                      Text('About Us',
-                        style: TextStyle(
-                          color:  Colors.white,
-
-                        ),),
-
-                    ],
-                  ),
-                  SizedBox(height: 30,),
-                  Row(
-                    children: [
-                      Icon(Icons.arrow_forward , color: Color(0xFF630831)),
-                      Text('Contact Us',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color:  Colors.white,
-
-                        ),),
-
-                    ],
-                  ),
-                  SizedBox(height: 30,),
-                  Text('Contact Information',
-                    style: TextStyle(
-                      color:  Colors.white,
-                      fontSize: 24,
-                      fontWeight: FontWeight.w700,
-                    ),),
-                  SizedBox(height: 30,),
-                  Row(
-                    children: [
-                      Icon(Icons.mail_outline_outlined , color: Color(0xFF630831),),
-                      GestureDetector(
-                        onTap: () {
-                          _launchEmail('info@100p100liban.org');
-                        },
-                        child: Text(
-                          'info@100p100liban.org',
-                          style: TextStyle(
-                            color:  Colors.white,
-
+                      SizedBox(width: 20,),
+                      Container(
+                        width: 25,
+                        height: 25,
+                        child: ElevatedButton.icon(
+                          onPressed: () {},
+                          icon: Image.asset(
+                            'lib/images/f.png',
+                            width: 16,
+                            height: 16,
+                          ),
+                          label: SizedBox.shrink(),
+                          style: ElevatedButton.styleFrom(
+                            padding: EdgeInsets.zero,
+                            minimumSize: Size(40, 40),
+                            backgroundColor: Color(0xFF3B3561),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(1),
+                            ),
                           ),
                         ),
-                      ) ,
-
-                    ],
-                  ),
-                  SizedBox(height: 30,),
-                  Row(
-                    children: [
-                      Icon(FontAwesomeIcons.globe, color: Color(0xFF630831),),
-                      GestureDetector(
-                        onTap: () {
-                          _launchWebsite('https://www.winetourismlebanon.org');
-                        },
-                        child: Text(
-                          'www.winetourismlebanon.org',
-                          style: TextStyle(
-                            color:  Colors.white,
-
+                      ),
+                      SizedBox(width: 20,),
+                      ElevatedButton.icon(
+                        onPressed: () {},
+                        icon: Image.asset(
+                          'lib/images/y.png',
+                          width: 16,
+                          height: 16,
+                        ),
+                        label: SizedBox.shrink(),
+                        style: ElevatedButton.styleFrom(
+                          padding: EdgeInsets.zero,
+                          minimumSize: Size(40, 40),
+                          backgroundColor: Color(0xFF3B3561),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(1),
                           ),
                         ),
-                      ) ,
-
-                    ],
-                  ),
-                  SizedBox(height: 30,),
-                  Row(
-                    children: [
-                      Icon(Icons.location_on_outlined , color: Color(0xFF630831),),
-                      GestureDetector(
-                        onTap: () {
-                          _launchMap();
-                        },
-                        child: Text(
-                          'sin el fil, horch tabet, pierre michaca building, ground floor',
-                          style: TextStyle(
-                            color:  Colors.white,
-
+                      ),SizedBox(width: 20,),
+                      ElevatedButton.icon(
+                        onPressed: () {},
+                        icon: Image.asset(
+                          'lib/images/i.png',
+                          width: 16,
+                          height: 16,
+                        ),
+                        label: SizedBox.shrink(),
+                        style: ElevatedButton.styleFrom(
+                          padding: EdgeInsets.zero,
+                          minimumSize: Size(40, 40),
+                          backgroundColor: Color(0xFF3B3561),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(1),
                           ),
                         ),
-                      ) ,
-
-                    ],
-                  ),
-                  SizedBox(height: 30,),
-                  Row(
-                    children: [
-                      Icon(Icons.phone_iphone_outlined , color: Color(0xFF630831),),
-                      GestureDetector(
-                        onTap: () {
-                          _launchPhone('+9613528255');
-                        },
-                        child: Text(
-                          '+961 3 52 82 55',
-                          style: TextStyle(
-                            color:  Colors.white,
-
+                      ),
+                      SizedBox(width: 20,),
+                      ElevatedButton.icon(
+                        onPressed: () {},
+                        icon: Image.asset(
+                          'lib/images/tw.png',
+                          width: 16,
+                          height: 16,
+                        ),
+                        label: SizedBox.shrink(),
+                        style: ElevatedButton.styleFrom(
+                          padding: EdgeInsets.zero,
+                          minimumSize: Size(40, 40),
+                          backgroundColor: Color(0xFF3B3561),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(1),
                           ),
                         ),
-                      ) ,
-
+                      ),
                     ],
                   ),
+                ],),),)
+            ],),
+           
+            
+
+SizedBox(height: 40,),
+            Container(
+              color: Color(0xFF060922),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  isMobile
+                      ?Column(
+                    children: [
+                      Container(
+                        padding: EdgeInsets.only(left: 0,),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Image.asset(
+                              'lib/images/logo.png',
+                              width: 50,
+                              height: 50,
+                              fit: BoxFit.cover,
+                            ),
+                            SizedBox(height: 30,),
+                            SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                children: [
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  ElevatedButton.icon(
+                                    onPressed: () {},
+                                    icon: Image.asset(
+                                      'lib/images/f.png',
+                                      width: 16,
+                                      height: 16,
+                                    ),
+                                    label: SizedBox.shrink(),
+                                    style: ElevatedButton.styleFrom(
+                                      padding: EdgeInsets.zero,
+                                      minimumSize: Size(40, 40),
+                                      backgroundColor: Color(0xFF3B3561),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(1),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 5,
+
+                                  ),
+                                  ElevatedButton.icon(
+                                    onPressed: () {},
+                                    icon: Image.asset(
+                                      'lib/images/y.png',
+                                      width: 16,
+                                      height: 16,
+                                    ),
+                                    label: SizedBox.shrink(),
+                                    style: ElevatedButton.styleFrom(
+                                      padding: EdgeInsets.zero,
+                                      minimumSize: Size(40, 40),
+                                      backgroundColor: Color(0xFF3B3561),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(1),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  ElevatedButton.icon(
+                                    onPressed: () {},
+                                    icon: Image.asset(
+                                      'lib/images/i.png',
+                                      width: 16,
+                                      height: 16,
+                                    ),
+                                    label: SizedBox.shrink(),
+                                    style: ElevatedButton.styleFrom(
+                                      padding: EdgeInsets.zero,
+                                      minimumSize: Size(40, 40),
+                                      backgroundColor: Color(0xFF3B3561),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(1),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  ElevatedButton.icon(
+                                    onPressed: () {},
+                                    icon: Image.asset(
+                                      'lib/images/tw.png',
+                                      width: 16,
+                                      height: 16,
+                                    ),
+                                    label: SizedBox.shrink(),
+                                    style: ElevatedButton.styleFrom(
+                                      padding: EdgeInsets.zero,
+                                      minimumSize: Size(40, 40),
+                                      backgroundColor: Color(0xFF3B3561),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(1),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                ],
+                              ),
+                            )
+
+                          ],
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('Useful Links',
+                              style: TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.w700,
+                                color:  Colors.white,
+                              ),),
+                            SizedBox(height: 30,),
+                            Row(
+                              children: [
+                                Icon(Icons.arrow_forward,  color: Color(0xFF630831),),
+                                Text('Home',
+                                  style: TextStyle(
+                                    color:  Colors.white,
+
+                                  ),),
+
+                              ],
+                            ),
+                            SizedBox(height: 30,),
+                            Row(
+                              children: [
+                                Icon(Icons.arrow_forward ,  color: Color(0xFF630831),),
+                                Text('News',
+                                  style: TextStyle(
+                                    color:  Colors.white,
+
+                                  ),),
+
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('Resources',
+                              style: TextStyle(
+                                color:  Colors.white,
+                                fontSize: 24,
+                                fontWeight: FontWeight.w700,
+                              ),),
+                            SizedBox(height: 30,),
+                            Row(
+                              children: [
+                                Icon(Icons.arrow_forward ,  color: Color(0xFF630831),),
+                                Text('About Us',
+                                  style: TextStyle(
+                                    color:  Colors.white,
+                                    decoration: TextDecoration.underline,
+                                  ),),
+
+                              ],
+                            ),
+                            SizedBox(height: 30,),
+                            Row(
+                              children: [
+                                Icon(Icons.arrow_forward , color: Color(0xFF630831),),
+                                Text('Contact Us',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color:  Colors.white,
+                                    decoration: TextDecoration.underline,
+                                  ),),
+
+                              ],
+                            ),
+
+                          ],),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.all(16.0),
+
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('Contact Information',
+                              style: TextStyle(
+                                color:  Colors.white,
+                                fontSize: 24,
+                                fontWeight: FontWeight.w700,
+                              ),),
+                            SizedBox(height: 30,),
+                            Row(
+                              children: [
+                                Icon(Icons.mail ,  color: Color(0xFF630831),),
+                                GestureDetector(
+                                  onTap: () {
+                                    _launchEmail('info@100p100liban.org');
+                                  },
+                                  child: Text(
+                                    'info@100p100liban.org',
+                                    style: TextStyle(
+                                      color:  Colors.white,
+                                      decoration: TextDecoration.underline,
+                                    ),
+                                  ),
+                                ) ,
+
+                              ],
+                            ),
+                            SizedBox(height: 30,),
+                            Row(
+                              children: [
+                                Icon(FontAwesomeIcons.globe ,  color: Color(0xFF630831),),
+                                GestureDetector(
+                                  onTap: () {
+                                    _launchWebsite('https://www.winetourismlebanon.org');
+                                  },
+                                  child: Text(
+                                    'www.winetourismlebanon.org',
+                                    style: TextStyle(
+                                      color:  Colors.white,
+                                      decoration: TextDecoration.underline,
+                                    ),
+                                  ),
+                                ) ,
+
+                              ],
+                            ),
+                            SizedBox(height: 30,),
+                            Row(
+                              children: [
+                                Icon(Icons.location_on_outlined, color: Color(0xFF630831)),
+                                Expanded(
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      _launchMap();
+                                    },
+                                    child: Text(
+                                      'sin el fil, horch tabet, pierre michaca building, ground floor',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        decoration: TextDecoration.underline,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+
+                            SizedBox(height: 30,),
+                            Row(
+                              children: [
+                                Icon(Icons.phone_iphone_outlined ,  color: Color(0xFF630831),),
+                                GestureDetector(
+                                  onTap: () {
+                                    _launchPhone('+9613528255');
+                                  },
+                                  child: Text(
+                                    '+961 3 52 82 55',
+                                    style: TextStyle(
+                                      color:  Colors.white,
+                                      decoration: TextDecoration.underline,
+                                    ),
+                                  ),
+                                ) ,
+
+                              ],
+                            ),
+
+                          ],),
+                      )
+                    ],
+                  )
+                      :Row(
+                    children: [
+                      Expanded(child:Container(
+                        padding: EdgeInsets.only(left: 0,),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Image.asset(
+                              'lib/images/logo.png',
+                              width: 50,
+                              height: 50,
+                              fit: BoxFit.cover,
+                            ),
+                            SizedBox(height: 30,),
+                            SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                children: [
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  ElevatedButton.icon(
+                                    onPressed: () {},
+                                    icon: Image.asset(
+                                      'lib/images/f.png',
+                                      width: 16,
+                                      height: 16,
+                                    ),
+                                    label: SizedBox.shrink(),
+                                    style: ElevatedButton.styleFrom(
+                                      padding: EdgeInsets.zero,
+                                      minimumSize: Size(40, 40),
+                                      backgroundColor: Color(0xFF3B3561),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(1),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 5,
+
+                                  ),
+                                  ElevatedButton.icon(
+                                    onPressed: () {},
+                                    icon: Image.asset(
+                                      'lib/images/y.png',
+                                      width: 16,
+                                      height: 16,
+                                    ),
+                                    label: SizedBox.shrink(),
+                                    style: ElevatedButton.styleFrom(
+                                      padding: EdgeInsets.zero,
+                                      minimumSize: Size(40, 40),
+                                      backgroundColor: Color(0xFF3B3561),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(1),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  ElevatedButton.icon(
+                                    onPressed: () {},
+                                    icon: Image.asset(
+                                      'lib/images/i.png',
+                                      width: 16,
+                                      height: 16,
+                                    ),
+                                    label: SizedBox.shrink(),
+                                    style: ElevatedButton.styleFrom(
+                                      padding: EdgeInsets.zero,
+                                      minimumSize: Size(40, 40),
+                                      backgroundColor: Color(0xFF3B3561),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(1),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  ElevatedButton.icon(
+                                    onPressed: () {},
+                                    icon: Image.asset(
+                                      'lib/images/tw.png',
+                                      width: 16,
+                                      height: 16,
+                                    ),
+                                    label: SizedBox.shrink(),
+                                    style: ElevatedButton.styleFrom(
+                                      padding: EdgeInsets.zero,
+                                      minimumSize: Size(40, 40),
+                                      backgroundColor: Color(0xFF3B3561),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(1),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                ],
+                              ),
+                            )
+
+                          ],
+                        ),
+                      ),),
+                      Expanded(child: Container(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('Useful Links',
+                              style: TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.w700,
+                                color:  Colors.white,
+                              ),),
+                            SizedBox(height: 30,),
+                            Row(
+                              children: [
+                                Icon(Icons.arrow_forward,  color: Color(0xFF630831),),
+                                Text('Home',
+                                  style: TextStyle(
+                                    color:  Colors.white,
+
+                                  ),),
+
+                              ],
+                            ),
+                            SizedBox(height: 30,),
+                            Row(
+                              children: [
+                                Icon(Icons.arrow_forward ,  color: Color(0xFF630831),),
+                                Text('News',
+                                  style: TextStyle(
+                                    color:  Colors.white,
+
+                                  ),),
+
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),),
+                      Expanded(child:   Container(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('Resources',
+                              style: TextStyle(
+                                color:  Colors.white,
+                                fontSize: 24,
+                                fontWeight: FontWeight.w700,
+                              ),),
+                            SizedBox(height: 30,),
+                            Row(
+                              children: [
+                                Icon(Icons.arrow_forward ,  color: Color(0xFF630831),),
+                                Text('About Us',
+                                  style: TextStyle(
+                                    color:  Colors.white,
+                                    decoration: TextDecoration.underline,
+                                  ),),
+
+                              ],
+                            ),
+                            SizedBox(height: 30,),
+                            Row(
+                              children: [
+                                Icon(Icons.arrow_forward , color: Color(0xFF630831),),
+                                Text('Contact Us',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color:  Colors.white,
+                                    decoration: TextDecoration.underline,
+                                  ),),
+
+                              ],
+                            ),
+
+                          ],),
+                      ),),
+                      Expanded(child: Container(
+                        padding: const EdgeInsets.all(16.0),
+
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('Contact Information',
+                              style: TextStyle(
+                                color:  Colors.white,
+                                fontSize: 24,
+                                fontWeight: FontWeight.w700,
+                              ),),
+                            SizedBox(height: 30,),
+                            Row(
+                              children: [
+                                Icon(Icons.mail ,  color: Color(0xFF630831),),
+                                GestureDetector(
+                                  onTap: () {
+                                    _launchEmail('info@100p100liban.org');
+                                  },
+                                  child: Text(
+                                    'info@100p100liban.org',
+                                    style: TextStyle(
+                                      color:  Colors.white,
+                                      decoration: TextDecoration.underline,
+                                    ),
+                                  ),
+                                ) ,
+
+                              ],
+                            ),
+                            SizedBox(height: 30,),
+                            Row(
+                              children: [
+                                Icon(FontAwesomeIcons.globe ,  color: Color(0xFF630831),),
+                                GestureDetector(
+                                  onTap: () {
+                                    _launchWebsite('https://www.winetourismlebanon.org');
+                                  },
+                                  child: Text(
+                                    'www.winetourismlebanon.org',
+                                    style: TextStyle(
+                                      color:  Colors.white,
+                                      decoration: TextDecoration.underline,
+                                    ),
+                                  ),
+                                ) ,
+
+                              ],
+                            ),
+                            SizedBox(height: 30,),
+                            Row(
+                              children: [
+                                Icon(Icons.location_on_outlined, color: Color(0xFF630831)),
+                                Expanded(
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      _launchMap();
+                                    },
+                                    child: Text(
+                                      'sin el fil, horch tabet, pierre michaca building, ground floor',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        decoration: TextDecoration.underline,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+
+                            SizedBox(height: 30,),
+                            Row(
+                              children: [
+                                Icon(Icons.phone_iphone_outlined ,  color: Color(0xFF630831),),
+                                GestureDetector(
+                                  onTap: () {
+                                    _launchPhone('+9613528255');
+                                  },
+                                  child: Text(
+                                    '+961 3 52 82 55',
+                                    style: TextStyle(
+                                      color:  Colors.white,
+                                      decoration: TextDecoration.underline,
+                                    ),
+                                  ),
+                                ) ,
+
+                              ],
+                            ),
+
+                          ],),
+                      ))
+                    ],
+                  ),
+
                   SizedBox(height: 30,),
                   Text('© 2022 Created by: Telepaty',
                     style: TextStyle(
                       color:  Colors.white,
-
+                      decoration: TextDecoration.underline,
                     ),),
                   SizedBox(height: 30,),
                   Text('Terms of Use | Privacy Policy',
                     style: TextStyle(
                       color:  Colors.white,
-
+                      decoration: TextDecoration.underline,
                     ),),
 
 
@@ -661,7 +1411,7 @@ SizedBox(height: 40,),
           ],
         ),
       ),
-
+        ),
     );
   }
 }
